@@ -18,7 +18,7 @@ public class Sandwich extends Product{
         this.toasted = toasted;
     }
 
-    
+
 
     @Override
     public String toString(){
