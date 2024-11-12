@@ -3,8 +3,12 @@ package com.pluralsight;
 public class Chips extends Product{
     private String type;
 
-    public Chips(double price, double size, String type) {
-        super(price, size);
+    public Chips(String type) {
         this.type = type;
+    }
+
+    @Override
+    public double getPrice() {
+        return 0;
     }
 }

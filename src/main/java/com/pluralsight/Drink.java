@@ -3,8 +3,13 @@ package com.pluralsight;
 public class Drink extends Product{
     private String flavor;
 
-    public Drink(double price, double size, String flavor) {
-        super(price, size);
+    public Drink(double size, String flavor) {
+        super(size);
         this.flavor = flavor;
+    }
+
+    @Override
+    public double getPrice(){
+        return 0;
     }
 }

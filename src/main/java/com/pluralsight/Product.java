@@ -1,27 +1,18 @@
 package com.pluralsight;
 
 public abstract class Product {
-    private double price;
+
     private double size;
 
-    public Product(double price, double size) {
-        this.price = price;
+    public Product(){}
+    public Product(double size) {
         this.size = size;
     }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    public abstract double getPrice();
 
     public double getSize() {
         return size;
     }
 
-    public void setSize(double size) {
-        this.size = size;
-    }
+
 }
