@@ -1,1 +1,3 @@
-![DELI-ciousShopDiagram](https://github.com/user-attachments/assets/32c1d6e8-0c88-4296-b78e-877f2e0d4eed)
+# **DELI-ciousShop Diagram**
+`By: Edith Aguirre`
+![DELI-ciousShopDiagram](https://github.com/user-attachments/assets/fbcc5fd5-a5e3-4488-a699-e629eadf1dab)
