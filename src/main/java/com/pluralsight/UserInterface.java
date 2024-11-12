@@ -1,6 +1,5 @@
 package com.pluralsight;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -63,7 +62,7 @@ public class UserInterface {
 
         while(true) {
             try {
-
+                // Display order screen
                 System.out.print("""
                         Order Screen
                         ---------------
@@ -95,8 +94,8 @@ public class UserInterface {
                         processCancelOrderRequest();
                         return;
                     default:
+                        System.out.println("Invalid. Enter a valid choice (1,2,3,4, or 0).");
                         break;
-
                 }
                 System.out.println("\nSuccessfully added! Would you like to add something else to your order?");
 
@@ -120,26 +119,28 @@ public class UserInterface {
         System.out.print("Would you like the sandwich toasted? (Yes or No): ");
         boolean toasted = (scanner.nextLine().trim().equalsIgnoreCase("Yes"));
 
-        System.out.println("Would you like a side with your order? (au jus, sauce, or none): ");
+        System.out.print("Would you like a side with your order? (au jus, sauce, or none): ");
         String side = scanner.nextLine();
-        System.out.println("""
+
+        System.out.print("""
         Which sauce would you like to include with your order?
         (mayo, mustard, ketchup, ranch, thousand islands, vinaigrette, none)
         Enter the sauce: \
         """);
+        String sauce = scanner.nextLine();
 
-
-        order.addProduct(new Sandwich(size, breadType, toppings,toasted));
+        order.addProduct(new Sandwich(size, breadType, toppings,toasted, side, sauce));
     }
 
     public List<Topping> processAddToppingsRequest() {
         List<Topping> tempToppings = new ArrayList<>();
 
         System.out.print("""
-        Regular Toppings
-        ~~~~~~~~~~~~~~~~~~
-        (lettuce, peppers, onions, tomatoes, jalapenos, cucumbers,
-         pickles, guacamole, mushrooms)
+        Regular Toppings:
+        ~~~~~~~~~~~~~~~~~
+        (lettuce, peppers, onions, tomatoes, jalapenos,
+         cucumbers, pickles, guacamole, mushrooms, or none)
+         
         How many regular toppings would you like to add? (Enter 0 if none): \
         """);
         int regularToppingsCount = scanner.nextInt();
@@ -147,7 +148,7 @@ public class UserInterface {
 
         if(regularToppingsCount != 0) {
             for (int i = 0; i < regularToppingsCount; i++) {
-                System.out.println("Enter a topping to add: ");
+                System.out.print("Enter a topping to add: ");
                 tempToppings.add(new Topping(false, scanner.nextLine().trim()));
             }
         }
@@ -156,20 +157,43 @@ public class UserInterface {
         Premium Toppings
         ~~~~~~~~~~~~~~~~~~
         Meats: (steak, ham, salami, roast beef, chicken, bacon, or none)
-        Cheese: (american, provolone, cheddar, swiss, or none)
-        
-        Premium toppings come at an additional cost. How many premium toppings would you like to add?
+       
+        Premium toppings come at an additional cost. How many premium meat toppings total would you like to add?
         (Enter 0 if none): \
         """);
-        int premiumToppingsCount = scanner.nextInt();
+        int meatToppingsCount = scanner.nextInt();
         scanner.nextLine();
 
-        if(premiumToppingsCount != 0) {
+        if(meatToppingsCount != 0) {
             for (int i = 0; i < regularToppingsCount; i++) {
-                System.out.println("Enter a topping to add: ");
-                tempToppings.add(new Topping(true, scanner.nextLine().trim()));
+                System.out.print("Enter a topping to add: ");
+                String topping = scanner.nextLine().trim();
+                System.out.print("Extra meat?(Y for yes or N for no): ");
+                boolean extra = (scanner.nextLine().trim().equalsIgnoreCase("Y"));
+                tempToppings.add(new Topping(true, topping, extra, true));
             }
         }
+        System.out.print("""
+        Premium Toppings
+        ~~~~~~~~~~~~~~~~~~
+        Cheese: (american, provolone, cheddar, swiss, or none)
+       
+        Premium toppings come at an additional cost. How many premium meat toppings total would you like to add?
+        (Enter 0 if none): \
+        """);
+        int cheeseToppingsCount = scanner.nextInt();
+        scanner.nextLine();
+
+        if(cheeseToppingsCount != 0) {
+            for (int i = 0; i < regularToppingsCount; i++) {
+                System.out.print("Enter a topping to add: ");
+                String topping = scanner.nextLine().trim();
+                System.out.print("Extra cheese?(Y for yes or N for no): ");
+                boolean extra = (scanner.nextLine().trim().equalsIgnoreCase("Y"));
+                tempToppings.add(new Topping(true, topping, extra, false));
+            }
+        }
+
         return tempToppings;
     }
 
