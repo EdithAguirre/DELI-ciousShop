@@ -165,7 +165,7 @@ public class UserInterface {
         scanner.nextLine();
 
         if(meatToppingsCount != 0) {
-            for (int i = 0; i < regularToppingsCount; i++) {
+            for (int i = 0; i < meatToppingsCount; i++) {
                 System.out.print("Enter a topping to add: ");
                 String topping = scanner.nextLine().trim();
                 System.out.print("Extra meat?(Y for yes or N for no): ");
@@ -178,14 +178,14 @@ public class UserInterface {
         ~~~~~~~~~~~~~~~~~~
         Cheese: (american, provolone, cheddar, swiss, or none)
        
-        Premium toppings come at an additional cost. How many premium meat toppings total would you like to add?
+        Premium toppings come at an additional cost. How many premium cheese toppings total would you like to add?
         (Enter 0 if none): \
         """);
         int cheeseToppingsCount = scanner.nextInt();
         scanner.nextLine();
 
         if(cheeseToppingsCount != 0) {
-            for (int i = 0; i < regularToppingsCount; i++) {
+            for (int i = 0; i < cheeseToppingsCount; i++) {
                 System.out.print("Enter a topping to add: ");
                 String topping = scanner.nextLine().trim();
                 System.out.print("Extra cheese?(Y for yes or N for no): ");
@@ -218,7 +218,31 @@ public class UserInterface {
         order.addProduct(new Chips(chipType));
     }
     public void processCheckOutRequest() {
+        System.out.println("Here are the details and price for your order: ");
 
+        while(true) {
+            // call method to display order details and the price
+            System.out.printf("%-35s %s\n", "ITEM", "PRICE");
+            System.out.println("---------------------------------------------");
+            order.getAllProducts();
+
+            System.out.println("""
+                    1) Confirm
+                    0) Cancel Order
+                    Enter your choice: \
+                    """);
+            int choice = scanner.nextInt();
+            if (choice == 1) {
+                // create receipt file and go back to home screen
+
+            } else if (choice == 0) {
+                order.cancelOrder();
+                return;
+            } else {
+                System.out.println("Invalid input. Please enter a valid choice (1 or 0).");
+                scanner.nextLine();
+            }
+        }
     }
     public void processCancelOrderRequest() {
         order.cancelOrder();

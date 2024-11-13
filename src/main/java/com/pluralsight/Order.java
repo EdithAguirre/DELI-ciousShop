@@ -6,14 +6,20 @@ public class Order {
     // Data fields
     private String customerName;
     ArrayList<Product> order;
+    Receipt receipt;
 
     public Order(String customerName) {
         this.customerName = customerName;
         this.order = new ArrayList<>();
+
     }
 
     public void addProduct(Product product){
         this.order.add(product);
+    }
+
+    public void getAllProducts(){
+        order.stream().forEach(System.out::println);
     }
 
     public void cancelOrder(){

@@ -68,8 +68,14 @@ public class Sandwich extends Product{
 
     @Override
     public String toString(){
-        return "size: " + this.getSize() + ", Bread Type: " + this.breadType + ", Toppings..." +
-                ", Toasted: " + this.toasted + ", Sides: " + this.side + ", Sauce: " + this.sauce;
+        // preliminary format
+        return String.format("%d\" Sandwich " +
+                "\n BREAD: %-27s $%.2f" +
+                "\n TOPPINGS: " +
+                "\n TOASTED: " +
+                "\n SIDE: %s" +
+                "\n SAUCE: %s",this.getSize(),this.getBreadType(),this.getPrice(), this.side, this.sauce);
+
     }
 
     public String getBreadType() {
