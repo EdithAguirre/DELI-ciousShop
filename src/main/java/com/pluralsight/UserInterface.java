@@ -10,16 +10,9 @@ public class UserInterface {
     Order order;
     Scanner scanner = new Scanner(System.in);
 
-    public UserInterface() {
-    }
-
-//    private void init() {
-//        // this.order = OrderFileManager.getReceipt();
-//    }
+    public UserInterface() {}
 
     public void display() {
-        //init();
-
         while (true) {
             try {
                 // Home Screen
@@ -89,7 +82,7 @@ public class UserInterface {
                         break;
                     case 4:
                         processCheckOutRequest();
-                        break;
+                        return;
                     case 0:
                         processCancelOrderRequest();
                         return;
@@ -226,15 +219,19 @@ public class UserInterface {
             System.out.println("---------------------------------------------");
             order.getAllProducts();
 
-            System.out.println("""
+            System.out.print("""
                     1) Confirm
                     0) Cancel Order
                     Enter your choice: \
                     """);
             int choice = scanner.nextInt();
+            System.out.println();
             if (choice == 1) {
                 // create receipt file and go back to home screen
-
+                Receipt receipt = new Receipt(order);
+                System.out.println(receipt.getOrderInfo());
+                ReceiptFileManager.saveReceipt(receipt);
+                return;
             } else if (choice == 0) {
                 order.cancelOrder();
                 return;
