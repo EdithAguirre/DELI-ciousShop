@@ -109,10 +109,10 @@ public class UserInterface {
 
         List<Topping> toppings = processAddToppingsRequest();
 
-        System.out.print("Would you like the sandwich toasted? (Yes or No): ");
-        boolean toasted = (scanner.nextLine().trim().equalsIgnoreCase("Yes"));
+        System.out.print("Would you like the sandwich toasted? (Y for Yes or N for No): ");
+        boolean toasted = (scanner.nextLine().trim().equalsIgnoreCase("Y"));
 
-        System.out.print("Would you like a side with your order? (au jus, sauce, or none): ");
+        System.out.print("Which side would you like with your order? (au jus, sauce, or none): ");
         String side = scanner.nextLine();
 
         System.out.print("""
@@ -161,7 +161,7 @@ public class UserInterface {
             for (int i = 0; i < meatToppingsCount; i++) {
                 System.out.print("Enter a topping to add: ");
                 String topping = scanner.nextLine().trim();
-                System.out.print("Extra meat?(Y for yes or N for no): ");
+                System.out.print("Extra meat?(Y for Yes or N for No): ");
                 boolean extra = (scanner.nextLine().trim().equalsIgnoreCase("Y"));
                 tempToppings.add(new Topping(true, topping, extra, true));
             }
@@ -181,7 +181,7 @@ public class UserInterface {
             for (int i = 0; i < cheeseToppingsCount; i++) {
                 System.out.print("Enter a topping to add: ");
                 String topping = scanner.nextLine().trim();
-                System.out.print("Extra cheese?(Y for yes or N for no): ");
+                System.out.print("Extra cheese?(Y for Yes or N for No): ");
                 boolean extra = (scanner.nextLine().trim().equalsIgnoreCase("Y"));
                 tempToppings.add(new Topping(true, topping, extra, false));
             }
@@ -215,9 +215,8 @@ public class UserInterface {
 
         while(true) {
             // call method to display order details and the price
-            System.out.printf("%-35s %s\n", "ITEM", "PRICE");
-            System.out.println("---------------------------------------------");
-            order.getAllProducts();
+            Receipt receipt = new Receipt(order);
+            System.out.println(receipt.getOrderInfo());
 
             System.out.print("""
                     1) Confirm
@@ -227,10 +226,9 @@ public class UserInterface {
             int choice = scanner.nextInt();
             System.out.println();
             if (choice == 1) {
-                // create receipt file and go back to home screen
-                Receipt receipt = new Receipt(order);
-                System.out.println(receipt.getOrderInfo());
+                // Save receipt file and go back to home screen
                 ReceiptFileManager.saveReceipt(receipt);
+
                 return;
             } else if (choice == 0) {
                 order.cancelOrder();

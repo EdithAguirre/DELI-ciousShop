@@ -32,6 +32,6 @@ public class Drink extends Product{
 
     @Override
     public String toString() {
-        return String.format("DRINK: %-10s Size:%-12s $%.2f\n", this.flavor,getStringSize(), this.getPrice());
+        return String.format("DRINK: %-10s Size:%-23s $%.2f\n", this.flavor,getStringSize(), this.getPrice());
     }
 }

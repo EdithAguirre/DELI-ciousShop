@@ -22,60 +22,64 @@ public class Sandwich extends Product{
         // size
         if(this.getSize() == 4){
             // bread + toppings price
-            return 5.50 + this.getPriceOfToppings();
+            return this.getPriceOfBread() + this.getPriceOfToppings();
         } else if (this.getSize() == 8) {
-            return 7.00 + this.getPriceOfToppings();
+            return this.getPriceOfBread() + this.getPriceOfToppings();
         } else {
-            return 8.50 + this.getPriceOfToppings();
+            return this.getPriceOfBread() + this.getPriceOfToppings();
         }
     }
 
     public double getPriceOfToppings(){
         double toppingsPrice = 0;
-        switch (this.getSize()){
-            case 4:
-                loopOverToppingPrices(1.00, 0.50, 0.75, 0.30);
-                break;
-            case 8:
-                loopOverToppingPrices(2.00, 1.00, 1.50, 0.60);
-                break;
-            case 12:
-                loopOverToppingPrices(3.00, 1.50, 2.25, 0.90);
-                break;
+        for(Topping topping: toppings){
+            toppingsPrice += topping.getPrice(this.getSize());
         }
-        return toppingsPrice;
+        return  toppingsPrice;
     }
 
-    public double loopOverToppingPrices(double premiumMeat, double premiumMeatExtra, double premiumCheese, double premiumCheeseExtra){
-        double toppingsPrice = 0;
-        for(Topping topping : toppings){
-            if(topping.isPremium()){ // premium
-                if(topping.isMeat()){   // is meat
-                    toppingsPrice += premiumMeat;
-                    if(topping.isExtra()){  // extra meat
-                        toppingsPrice += premiumMeatExtra;
-                    }
-                }else{
-                    toppingsPrice += premiumCheese;  // is cheese
-                    if(topping.isExtra()){    // extra cheese
-                        toppingsPrice += premiumCheeseExtra;
-                    }
-                }
-            }
+    public double getPriceOfBread(){
+        if(this.getSize() == 4){
+            return 5.50;
+        } else if (this.getSize() == 8) {
+            return 7.00;
+        }else {
+            return 8.50;
         }
-        return toppingsPrice;
     }
 
     @Override
     public String toString(){
-        // preliminary format
-        return String.format("%d\" Sandwich " +
-                "\n BREAD: %-27s $%.2f" +
-                "\n TOPPINGS: " +
-                "\n TOASTED: " +
-                "\n SIDE: %s" +
-                "\n SAUCE: %s",this.getSize(),this.getBreadType(),this.getPrice(), this.side, this.sauce);
+        if(this.toasted) {
+            return String.format("%d\" Sandwich " +
+                    "\n   BREAD: %-16s TOASTED             $%.2f" +
+                    "\n   TOPPINGS: " + toppingItemPriceString() +
+                    "\n   SIDE: %s,   SAUCE: %s\n", this.getSize(), this.getBreadType(), this.getPriceOfBread(), this.side, this.sauce);
+        }
+        else{
+            return String.format("%d\" Sandwich " +
+                    "\n   BREAD: %-36s $%.2f" +
+                    "\n   TOPPINGS: " + toppingItemPriceString() +
+                    "\n   SIDE: %s SAUCE: %s\n", this.getSize(), this.getBreadType(), this.getPriceOfBread(), this.side, this.sauce);
 
+        }
+    }
+
+    public String toppingItemPriceString() {
+        String regularToppings = "\n   Regular:";
+        String premiumToppings = "\n   Premium:";
+        for (int i = 0; i < toppings.size(); i++) {
+            if (!toppings.get(i).isPremium()) {
+                if(i == 3 || i == 6 || i == 9){
+                    regularToppings += "\n   ";
+                }
+                regularToppings += toppings.get(i).getName() + ", ";
+            } else {
+                premiumToppings += String.format("\n   %-43s $%.2f", toppings.get(i).getName(),
+                        toppings.get(i).getPrice(this.getSize()));
+            }
+        }
+        return regularToppings + premiumToppings;
     }
 
     public String getBreadType() {

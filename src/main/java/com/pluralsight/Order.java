@@ -19,10 +19,6 @@ public class Order {
         this.order.add(product);
     }
 
-    public void getAllProducts(){
-        order.stream().forEach(System.out::println);
-    }
-
     public void cancelOrder(){
         this.order.clear();
     }

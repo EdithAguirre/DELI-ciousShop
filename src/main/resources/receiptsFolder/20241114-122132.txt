@@ -1,0 +1,37 @@
+               DELI-cious Sandwich Shop
+            123 Main St. Dallas, Tx. 74321
+                     213-465-9870
+                Nov 14, 2024, 12:21 PM
+                  Order for Edith
+
+ITEM                                           PRICE
+======================================================
+8" Sandwich 
+   BREAD: wrap             TOASTED             $7.00
+   TOPPINGS: 
+   Regular:lettuce, tomatoes, guacamole, 
+   jalapenos, peppers, onions, 
+   Premium:
+
+   chicken                                     $2.00
+   cheddar                                     $2.10
+   SIDE: au jus,   SAUCE: none
+4" Sandwich 
+   BREAD: wheat                                $5.50
+   TOPPINGS: 
+   Regular:lettuce, pickles, jalapenos, 
+   Premium:
+
+   swiss                                       $0.75
+   SIDE: none SAUCE: none
+DRINK: Sprite     Size:SMALL                   $2.00
+DRINK: Coke       Size:SMALL                   $2.00
+CHIPS: Lay's                                   $1.50
+
+ITEM COUNT:                                     5
+SUBTOTAL:                                     $22.85
+TAX:                                          $1.89
+TOTAL:                                        $24.74
+
+======================================================
+     Thank you for your order! Come again soon!
