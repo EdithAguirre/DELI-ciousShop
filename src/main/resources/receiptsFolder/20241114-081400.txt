@@ -1,0 +1,27 @@
+               DELI-cious Sandwich Shop
+            123 Main St. Dallas, Tx. 74321
+                     213-465-9870
+                Nov 14, 2024, 20:14 PM
+                  Order for Edith
+
+ ITEM                                          PRICE
+======================================================
+ CHIPS: Doritos                                 $1.50
+ DRINK: Sprite     Size:SMALL                   $2.00
+ 4" Sandwich 
+    BREAD: wrap     (TOASTED)                   $5.50
+    TOPPINGS: 
+    Regular:lettuce, tomatoes, 
+    guacamole (EXTRA), 
+    Premium:
+    chicken                                     $1.00
+    cheddar                                     $0.75
+    SIDE: sauce,   SAUCE: mayo
+
+ ITEM COUNT:                                     3
+ SUBTOTAL:                                     $10.75
+ TAX:                                          $0.89
+ TOTAL:                                        $11.64
+
+======================================================
+     Thank you for your order! Come again soon!

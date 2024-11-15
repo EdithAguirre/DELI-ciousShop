@@ -5,27 +5,25 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserInterface {
-    // Data fields
+public class UserInterface{
     Order order;
     Scanner scanner = new Scanner(System.in);
 
     public UserInterface() {}
 
+    // Home Screen
     public void display() {
         while (true) {
             try {
-                // Home Screen
                 System.out.print("""
                         Welcome to DELI-cious Sandwich Shop!
-                        ------------------------------------
+                        ====================================
                         Select an option to continue.
                         1) New Order
                         0) Exit
                                 
                         Please enter your option (1 or 0): \
                         """);
-
                 int option = scanner.nextInt();
                 scanner.nextLine();
 
@@ -35,11 +33,11 @@ public class UserInterface {
                         break;
                     case 0:
                         scanner.close();
+                        System.out.println("Thank you for your order! Come again soon!");
                         System.exit(0);
                     default:
                         System.out.println("Invalid input. Please enter a valid choice (1 or 0).\n");
                 }
-
             } catch (InputMismatchException e) {
                 scanner.nextLine();
                 System.out.println("Error. Enter a numeric value from the options given. (1,2,3,4,5, or 0).\n");
@@ -55,10 +53,10 @@ public class UserInterface {
 
         while(true) {
             try {
-                // Display order screen
+                // Display Order Screen
                 System.out.print("""
                         Order Screen
-                        ---------------
+                        ================
                         1) Add Sandwich
                         2) Add Drink
                         3) Add Chips
@@ -100,17 +98,30 @@ public class UserInterface {
     }
 
     public void processAddSandwichRequest() {
-        System.out.print("Select your bread (white, wheat, rye, wrap): ");
+        int size;
+        while(true) {
+            try {
+                System.out.print("Sandwich size (4,8,12): ");
+                size = scanner.nextInt();
+                scanner.nextLine();
+                if(size == 4 || size == 8 || size == 12){
+                    break;
+                }else{
+                    System.out.println("Invalid selection. Please enter a valid option(4,8,12).\n");
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Invalid input. Please enter a numeric value.\n");
+                scanner.nextLine();
+            }
+        }
+
+        System.out.print("Select your bread- (1) White (2) Wheat (3) Rye (4) Wrap : ");
         String breadType = scanner.nextLine().trim();
-
-        System.out.print("Sandwich size (4,8,12): ");
-        int size = scanner.nextInt();
-        scanner.nextLine();
-
-        List<Topping> toppings = processAddToppingsRequest();
 
         System.out.print("Would you like the sandwich toasted? (Y for Yes or N for No): ");
         boolean toasted = (scanner.nextLine().trim().equalsIgnoreCase("Y"));
+
+        List<Topping> toppings = processAddToppingsRequest();   // prompt for toppings
 
         System.out.print("Which side would you like with your order? (au jus, sauce, or none): ");
         String side = scanner.nextLine();
@@ -121,95 +132,128 @@ public class UserInterface {
         Enter the sauce: \
         """);
         String sauce = scanner.nextLine();
-
-        order.addProduct(new Sandwich(size, breadType, toppings,toasted, side, sauce));
+        order.addProduct(new Sandwich(size, breadType,toasted, toppings, side, sauce));
     }
 
+    // Helper method for processAddSandwichRequest (helps display to user topping options: regular and premium)
     public List<Topping> processAddToppingsRequest() {
         List<Topping> tempToppings = new ArrayList<>();
 
         System.out.print("""
-        Regular Toppings:
-        ~~~~~~~~~~~~~~~~~
-        (lettuce, peppers, onions, tomatoes, jalapenos,
-         cucumbers, pickles, guacamole, mushrooms, or none)
-         
+        Regular Toppings:(lettuce, peppers, onions, tomatoes, jalapeños, cucumbers,
+        pickles, guacamole, mushrooms, or none)
+        
         How many regular toppings would you like to add? (Enter 0 if none): \
         """);
         int regularToppingsCount = scanner.nextInt();
         scanner.nextLine();
-
-        if(regularToppingsCount != 0) {
-            for (int i = 0; i < regularToppingsCount; i++) {
-                System.out.print("Enter a topping to add: ");
-                tempToppings.add(new Topping(false, scanner.nextLine().trim()));
-            }
-        }
+        loopToAddToppings(tempToppings, regularToppingsCount, false, false);
 
         System.out.print("""
-        Premium Toppings
-        ~~~~~~~~~~~~~~~~~~
-        Meats: (steak, ham, salami, roast beef, chicken, bacon, or none)
+        Premium Toppings - Meats: (steak, ham, salami, roast beef, chicken, bacon, or none)
        
         Premium toppings come at an additional cost. How many premium meat toppings total would you like to add?
         (Enter 0 if none): \
         """);
         int meatToppingsCount = scanner.nextInt();
         scanner.nextLine();
+        loopToAddToppings(tempToppings,meatToppingsCount,true,true);
 
-        if(meatToppingsCount != 0) {
-            for (int i = 0; i < meatToppingsCount; i++) {
-                System.out.print("Enter a topping to add: ");
-                String topping = scanner.nextLine().trim();
-                System.out.print("Extra meat?(Y for Yes or N for No): ");
-                boolean extra = (scanner.nextLine().trim().equalsIgnoreCase("Y"));
-                tempToppings.add(new Topping(true, topping, extra, true));
-            }
-        }
         System.out.print("""
-        Premium Toppings
-        ~~~~~~~~~~~~~~~~~~
-        Cheese: (american, provolone, cheddar, swiss, or none)
-       
+        Premium Toppings - Cheese: (american, provolone, cheddar, swiss, or none)
+        
         Premium toppings come at an additional cost. How many premium cheese toppings total would you like to add?
         (Enter 0 if none): \
         """);
         int cheeseToppingsCount = scanner.nextInt();
         scanner.nextLine();
-
-        if(cheeseToppingsCount != 0) {
-            for (int i = 0; i < cheeseToppingsCount; i++) {
-                System.out.print("Enter a topping to add: ");
-                String topping = scanner.nextLine().trim();
-                System.out.print("Extra cheese?(Y for Yes or N for No): ");
-                boolean extra = (scanner.nextLine().trim().equalsIgnoreCase("Y"));
-                tempToppings.add(new Topping(true, topping, extra, false));
-            }
-        }
+        loopToAddToppings(tempToppings,cheeseToppingsCount,true,false);
 
         return tempToppings;
     }
 
+    // Helper method for processAddSandwichRequest (helps loop and add a number of toppings set by the user)
+    public void loopToAddToppings(List<Topping> tempToppings, int toppingsCount, boolean premium, boolean meat){
+        if(toppingsCount != 0) {
+            for (int i = 0; i < toppingsCount; i++) {
+                System.out.print("Enter a topping to add: ");
+                String topping = scanner.nextLine().trim();
+                System.out.print("Add extra?(Y for Yes or N for No): ");
+                boolean extra = (scanner.nextLine().trim().equalsIgnoreCase("Y"));
+
+                if (premium) {
+                    tempToppings.add(new Topping(premium, topping, extra, meat));
+                } else {
+                    tempToppings.add(new Topping(premium, topping, extra));
+                }
+            }
+        }
+    }
+
     public void processAddDrinkRequest() {
-        System.out.print("""
-                Select drink size.
-                (1) Small  (2) Medium  (3) Large
-                Enter your choice: \
-                """);
-        int drinkSize = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("Select flavor (Sprite, Coke, Pepsi): ");
-        String flavor = scanner.nextLine().trim();
-
+        int drinkSize;
+        int flavorChoice;
+        String flavor;
+        while (true){
+            try {
+                System.out.print("Select drink size - (1) Small  (2) Medium  (3) Large : ");
+                drinkSize = scanner.nextInt();
+                scanner.nextLine();
+                if(drinkSize == 1 || drinkSize == 2 || drinkSize == 3) {
+                    break;
+                }else {
+                    System.out.println("Invalid selection. Please enter a valid option(1,2,3).\n");
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Invalid input. Please enter a numeric value.\n");
+                scanner.nextLine();
+            }
+        }
+        while(true){
+            try{
+                System.out.print("Select flavor - (1) Sprite (2) Coke (3) Pepsi: ");
+                flavorChoice = scanner.nextInt();
+                scanner.nextLine();
+                if(flavorChoice == 1) {
+                    flavor = "Sprite";
+                    break;
+                } else if (flavorChoice == 2) {
+                    flavor = "Coke";
+                    break;
+                } else if (flavorChoice == 3) {
+                    flavor = "Pepsi";
+                    break;
+                } else {
+                    System.out.println("Invalid selection. Please enter a valid option(1,2,3).\n");
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Invalid input. Please enter a numeric value.\n");
+                scanner.nextLine();
+            }
+        }
         order.addProduct(new Drink(drinkSize,flavor));
     }
-    public void processAddChipsRequest() {
-        System.out.print("Select chip type (Cheetos, Doritos, Lay's, Takis): ");
-        String chipType = scanner.nextLine().trim();
 
-        order.addProduct(new Chips(chipType));
+    public void processAddChipsRequest() {
+        int chipType;
+        while(true){
+            try{
+                System.out.print("Select chip type- (1) Lay's (2) Doritos (3) Cheetos (4) Takis: ");
+                chipType = scanner.nextInt();
+                scanner.nextLine();
+                if(chipType == 1 ||chipType == 2 ||chipType == 3 || chipType == 4) {
+                    order.addProduct(new Chips(chipType));
+                    break;
+                }else{
+                    System.out.println("Invalid selection. Please enter a valid option(1,2,3,4).\n");
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Invalid input. Please enter a numeric value.\n");
+                scanner.nextLine();
+            }
+        }
     }
+
     public void processCheckOutRequest() {
         System.out.println("Here are the details and price for your order: ");
 
@@ -225,23 +269,26 @@ public class UserInterface {
                     """);
             int choice = scanner.nextInt();
             System.out.println();
-            if (choice == 1) {
-                // Save receipt file and go back to home screen
-                ReceiptFileManager.saveReceipt(receipt);
-
-                return;
-            } else if (choice == 0) {
-                order.cancelOrder();
-                return;
-            } else {
-                System.out.println("Invalid input. Please enter a valid choice (1 or 0).");
-                scanner.nextLine();
+            switch(choice) {
+                case 1:
+                    // Save receipt file and go back to home screen
+                    ReceiptFileManager.saveReceipt(receipt);
+                    return;
+                case 0:
+                    // Cancel order and return to home screen
+                    order.cancelOrder();
+                    return;
+                default:
+                    System.out.println("Invalid input. Please enter a valid choice (1 or 0).");
+                    scanner.nextLine();
+                    break;
+                }
             }
         }
-    }
-    public void processCancelOrderRequest() {
-        order.cancelOrder();
-        // then remove from receipt file
 
+    public void processCancelOrderRequest() {
+        // deletes the order
+        order.cancelOrder();
     }
+
 }

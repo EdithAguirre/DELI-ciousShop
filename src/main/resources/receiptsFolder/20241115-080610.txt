@@ -1,0 +1,24 @@
+               DELI-cious Sandwich Shop
+            123 Main St. Dallas, Tx. 74321
+                     213-465-9870
+                Nov 15, 2024, 08:06 AM
+                  Order for Person2
+
+ ITEM                                          PRICE
+======================================================
+ 8" Sandwich 
+    BREAD: 1        (TOASTED)                   $7.00
+    TOPPINGS: 
+    Regular:Lettuce, Tomatoes, 
+    Premium:
+     Bacon     (EXTRA)                          $3.00
+    Cheddar                                     $1.50
+    SIDE: none,   SAUCE: Ranch
+
+ ITEM COUNT:                                     1
+ SUBTOTAL:                                     $11.50
+ TAX:                                           $0.95
+ TOTAL:                                        $12.45
+
+======================================================
+     Thank you for your order! Come again soon!

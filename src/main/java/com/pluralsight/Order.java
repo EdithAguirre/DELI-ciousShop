@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Order {
-    // Data fields
     private String customerName;
     ArrayList<Product> order;
     LocalDateTime localDateTime;
@@ -19,10 +18,7 @@ public class Order {
         this.order.add(product);
     }
 
-    public void cancelOrder(){
-        this.order.clear();
-    }
-
+    // Calculate total price of the order by adding prices of Sandwiches, Drinks, Chips
     public double getTotalPrice() {
         double totalPrice = 0;
         for(Product product: order){
@@ -31,16 +27,27 @@ public class Order {
         return totalPrice;
     }
 
+    public void cancelOrder(){
+        this.order.clear();
+    }
+
+    // Getters and Setters
     public ArrayList<Product> getOrder() {
         return this.order;
     }
-
     public String getCustomerName() {
         return this.customerName;
     }
-
     public LocalDateTime getLocalDateTime() {
         return this.localDateTime;
     }
-
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+    public void setOrder(ArrayList<Product> order) {
+        this.order = order;
+    }
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
 }

@@ -5,9 +5,20 @@ import java.io.*;
 public class ReceiptFileManager {
 
     // Display receipt
-//    public static void getReceipt(Receipt receipt){
-//        receipt.getOrderInfo();
-//    }
+    public static void getReceipt(Receipt receipt){
+        try {
+            String filePath = receipt.getReceiptFileName() + ".txt";
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/receiptsFolder/" + filePath));
+
+            String input;
+            while((input = bufferedReader.readLine()) != null){
+                System.out.println(input);
+            }
+
+        }catch (IOException e){
+            System.out.println("The receipt could not be retrieved.");
+        }
+    }
 
     // Save a receipt after customer confirms their order
     public static void saveReceipt(Receipt receipt){

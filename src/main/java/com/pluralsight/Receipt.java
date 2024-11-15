@@ -4,12 +4,12 @@ package com.pluralsight;
 import java.time.format.DateTimeFormatter;
 
 public class Receipt {
-    private final String storeAddress = "123 Main St. Dallas, Tx. 74321";
-    private final String storePhoneNumber = "213-465-9870";
-    DateTimeFormatter receiptDateFormat = DateTimeFormatter.ofPattern("MMM dd, YYYY, HH:mm a");
+    double salesTax = 0.0825;
+    final String storeAddress = "123 Main St. Dallas, Tx. 74321";
+    final String storePhoneNumber = "213-465-9870";
+    DateTimeFormatter receiptDateFormat = DateTimeFormatter.ofPattern("MMM dd, yyyy, HH:mm a");
     DateTimeFormatter receiptFileNameFormat = DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss");
     Order order;
-    double salesTax = 0.0825;
 
     public Receipt(Order order){
         this.order = order;
@@ -28,13 +28,18 @@ public class Receipt {
     }
 
     public String getOrderInfo(){
-        String orderInfo = String.format("\n%-46s %s\n" +
-                "======================================================\n", "ITEM","PRICE");
-        for(Product product: order.getOrder()){
-            orderInfo += product;
+        String orderInfo = String.format("""
+
+                %-46s %s
+                ======================================================
+                """, " ITEM","PRICE");
+
+        for (int i = order.getOrder().size() - 1; i >= 0; i--) {
+            orderInfo += order.getOrder().get(i);
         }
 
-        orderInfo += String.format("\n%-48s%d\n%-45s $%.2f\n%-45s $%.2f\n%-45s $%.2f\n", "ITEM COUNT:",
+        // Total price and other info
+        orderInfo += String.format("\n %-48s%d\n %-45s $%.2f\n %-46s $%.2f\n %-45s $%.2f\n", "ITEM COUNT:",
                 order.getOrder().size(),"SUBTOTAL:", this.order.getTotalPrice(), "TAX:",
                 (order.getTotalPrice() * salesTax),"TOTAL:", getPriceWithTax());
         return orderInfo;
@@ -51,7 +56,9 @@ public class Receipt {
     }
 
     public String getReceiptEnd(){
-        return "\n======================================================" +
-                "\n     Thank you for your order! Come again soon!";
+        return """
+
+                ======================================================
+                     Thank you for your order! Come again soon!""";
     }
 }
